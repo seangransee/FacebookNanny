@@ -1,0 +1,11 @@
+.overlay {
+	left: 50%;
+	top: 50%;
+	display: block;
+	background-color: white;
+	margin-top: -50px;
+	margin-left: -150px;
+	position: fixed;
+	height: 100px;
+	width: 300px;
+}

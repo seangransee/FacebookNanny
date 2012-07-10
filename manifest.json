@@ -1,0 +1,18 @@
+{
+  "name": "Facebook NoDistract",
+  "version": "0.1",
+  "description": "Disables Facebook unless you have notifications or need to contact someone.",
+  "permissions": [ "cookies", "*://*.facebook.com/*" ],
+  "browser_action": {
+    "name": "Manipulate DOM",
+    "icons": ["icon.png"],
+    "default_icon": "icon.png"
+  },
+  "content_scripts": [ {
+    "js": [ "jquery.min.js", "main.js" ],
+    "css": ["styles.css"],
+    //"matches": ["*://*/*"]
+    "matches": [ "*://www.facebook.com/*"]
+    //"exclude_matches": [ "*://www.facebook.com/messages/*", "*://www.facebook.com/messages"]
+  } ]
+}
