@@ -14,6 +14,7 @@ WebFontConfig = {
 var updateStopCount = function() {
 	var now = new Date().getTime();
 	var future = new Date(now + 3*60000).getTime();
+	console.log(future);
 	localStorage.setItem("FBstop", future);
 };
 
@@ -37,31 +38,27 @@ var overlay = {
 	}
 };
 
+var notifications = false;
+
 function loop() {
 	var login = document.title.indexOf('Log In') > -1;
 	var messages = document.title.split(' ').reverse()[0] == "Messages";
 	if (login || messages) {
-		console.log('login or messages page');
 		countdown.hide();
 		overlay.hide();
 	} else {
-		console.log('not login or messages page');
-		var notifications = false;
+		notifications = false;
 		$('.jewelCount span').each(function() { if ($(this).text() > 0) { notifications = true; } });
 		if (notifications) {
-			console.log('notifications found');
 			updateStopCount();
 			countdown.hide();
 			overlay.hide();
 		} else {
-			console.log('no notifications found');
 			var stop = parseInt(localStorage.getItem("FBstop"), 10);
 			var now = new Date().getTime();
 			if (stop < now) {
-				console.log('stop < now');
 				overlay.show();
 			} else {
-				console.log('stop > now');
 				overlay.hide();
 				countdown.show();
 			}
