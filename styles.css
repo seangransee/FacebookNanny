@@ -1,11 +1,78 @@
-.overlay {
-	left: 50%;
-	top: 50%;
-	display: block;
-	background-color: white;
-	margin-top: -50px;
-	margin-left: -150px;
+#overlay {
+	display: none;
+	background-color: black;
 	position: fixed;
-	height: 100px;
-	width: 300px;
+	height: 100%;
+	width: 100%;
+	z-index: 9998;
+	left: 0;
+	top: 0;
+	opacity:0.9;
+}
+
+#message {
+	font-family: 'PT Sans', sans-serif;
+	display: none;
+	top: 25%;
+	left: 25%;
+	width: 50%;
+	/*height: 50%;*/
+	border-radius: 1%;
+	position: fixed;
+	background-color: #E6E6DC;
+	opacity: 1;
+	z-index: 9999;
+	-webkit-box-shadow: 0px 0px 50px rgba(100, 255, 255, 0.3);
+	-moz-box-shadow:    0px 0px 100px rgba(100, 255, 255, 0.3);
+	box-shadow:         0px 0px 100px rgba(100, 100, 100, 0.5);
+}
+
+#message h1 {
+	color: #00628B;
+	margin: 7% 10% 2% 10%;
+	font-size: 2em;
+	text-align: center;
+}
+
+#message p {
+	font-size: 1em;
+	margin: 10%;
+}
+
+@media only screen 
+and (min-width : 600px) {
+#message h1 {
+	font-size: 3em;
+}
+#message p {
+	font-size: 1.2em;
+}
+}
+
+@media only screen 
+and (min-width : 1120px) {
+#message h1 {
+	font-size: 4em;
+}
+#message p {
+	font-size: 1.4em;
+}
+}
+
+@media only screen 
+and (min-width : 1200px) {
+#message h1 {
+	font-size: 5em;
+}
+#message p {
+	font-size: 1.6em;
+}
+}
+
+#countdown {
+	position: fixed;
+	left: 0;
+	bottom: 0;
+	background-color: white;
+	display: none;
 }

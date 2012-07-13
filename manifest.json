@@ -1,5 +1,5 @@
 {
-  "name": "Facebook NoDistract",
+  "name": "Facebook Nanny",
   "version": "0.1",
   "description": "Disables Facebook unless you have notifications or need to contact someone.",
   "permissions": [ "cookies", "*://*.facebook.com/*" ],
