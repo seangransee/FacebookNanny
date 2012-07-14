@@ -11,6 +11,8 @@ WebFontConfig = {
     s.parentNode.insertBefore(wf, s);
 })();
 
+var mouseOverCountdown = false;
+
 var updateStopCount = function() {
 	var now = new Date().getTime();
 	var future = new Date(now + 3*60000).getTime();
@@ -60,7 +62,7 @@ function loop() {
 				countdown.hide();
 			} else {
 				overlay.hide();
-				countdown.show();
+				if (!mouseOverCountdown) countdown.show();
 			}
 		}
 	}
@@ -70,6 +72,12 @@ $(document).ready(function() {
 	$('body').append(popup);
 	$('body').append('<div id="countdown"></div>');
 	loop();
+	$('#countdown').hover(function() {
+		mouseOverCountdown = true;
+		$(this).fadeOut();
+	}, function() {
+		mouseOverCountdown = false;
+	});
 
 	setInterval(function() {
 		updateCountdown();
@@ -92,12 +100,6 @@ var updateCountdown = function() {
 }
 
 
-
-
-
-
-
-
 var popup = '\
 <div id="overlay">									\
 </div>															\
@@ -106,6 +108,3 @@ var popup = '\
 	<p>You don\'t have any messages or notifications, which makes Facebook a waste of your time right now. You may still use <a href="http://www.facebook.com/messages">Facebook messages</a>.</p> \
 </div>    													\
 ';
-
-
-

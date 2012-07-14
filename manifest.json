@@ -1,18 +1,15 @@
 {
   "name": "Facebook Nanny",
-  "version": "0.1",
-  "description": "Disables Facebook unless you have notifications or need to contact someone.",
+  "version": "0.2",
+  "description": "Disables Facebook unless you have notifications or need to chat with someone.",
   "permissions": [ "cookies", "*://*.facebook.com/*" ],
-  "browser_action": {
-    "name": "Manipulate DOM",
-    "icons": ["icon.png"],
-    "default_icon": "icon.png"
+  "icons": {
+    "48": "icon48.png",
+    "128": "icon128.png"
   },
   "content_scripts": [ {
     "js": [ "jquery.min.js", "main.js" ],
     "css": ["styles.css"],
-    //"matches": ["*://*/*"]
     "matches": [ "*://www.facebook.com/*"]
-    //"exclude_matches": [ "*://www.facebook.com/messages/*", "*://www.facebook.com/messages"]
   } ]
 }
