@@ -14,7 +14,6 @@ WebFontConfig = {
 var updateStopCount = function() {
 	var now = new Date().getTime();
 	var future = new Date(now + 3*60000).getTime();
-	console.log(future);
 	localStorage.setItem("FBstop", future);
 };
 
@@ -54,10 +53,11 @@ function loop() {
 			countdown.hide();
 			overlay.hide();
 		} else {
-			var stop = parseInt(localStorage.getItem("FBstop"), 10);
+			var stop = +localStorage.getItem("FBstop");
 			var now = new Date().getTime();
-			if (stop < now) {
+			if (stop < now || !localStorage.FBstop) {
 				overlay.show();
+				countdown.hide();
 			} else {
 				overlay.hide();
 				countdown.show();
@@ -66,11 +66,36 @@ function loop() {
 	}
 }
 
-loop();
-
-setInterval(function() {
+$(document).ready(function() {
+	$('body').append(popup);
+	$('body').append('<div id="countdown"></div>');
 	loop();
-}, 5000);
+
+	setInterval(function() {
+		updateCountdown();
+		loop();
+	}, 1000);
+});
+
+var updateCountdown = function() {
+	var stop = +localStorage.getItem("FBstop");
+	var now = new Date().getTime();
+	if (stop >= now) {
+		var time = Math.floor((stop - now) / 1000);
+		var minutes = Math.floor(time / 60);
+		var seconds = Math.floor(time % 60);
+		if (seconds < 10) seconds = "0" + seconds;
+		$('#countdown').html(minutes + ':' + seconds);
+		return true;
+	}
+	return false;
+}
+
+
+
+
+
+
 
 
 var popup = '\
@@ -82,6 +107,5 @@ var popup = '\
 </div>    													\
 ';
 
-$('body').append(popup);
-$('body').append('<div id="countdown">blah countdown</div>');
+
 
