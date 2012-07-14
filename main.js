@@ -69,6 +69,9 @@ function loop() {
 }
 
 $(document).ready(function() {
+	var now = new Date().getTime();
+	var future = new Date(now + 0.25*60000).getTime();
+	localStorage.setItem("FBstop", future);
 	$('body').append(popup);
 	$('body').append('<div id="countdown"></div>');
 	loop();
