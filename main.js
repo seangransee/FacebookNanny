@@ -11,12 +11,30 @@ WebFontConfig = {
     s.parentNode.insertBefore(wf, s);
 })();
 
-var mouseOverCountdown = false;
+var mouseOverCountdown;
 
-var updateStopCount = function() {
-	var now = new Date().getTime();
-	var future = new Date(now + 3*60000).getTime();
-	localStorage.setItem("FBstop", future);
+var settings = {
+	get: function(k) {
+		var options = JSON.parse(localStorage.FBNanny);
+		return options[k];
+	},
+
+	set: function(k, v) {
+		var options = localStorage.FBNanny;
+		if (options) {
+			options = JSON.parse(options);
+		} else {
+			options = {};
+		}
+		options[k] = v;
+		json = JSON.stringify(options);
+		localStorage.FBNanny = json;
+	}
+}
+
+var updateTimesup = function(t) {
+	current = settings.get('timesup');
+	if (t > current || !current) settings.set('timesup', t);
 };
 
 var countdown = {
@@ -39,25 +57,30 @@ var overlay = {
 	}
 };
 
-var notifications = false;
+var allowprofile;
+var profile;
 
 function loop() {
 	var login = document.title.indexOf('Log In') > -1;
 	var messages = document.title.split(' ').reverse()[0] == "Messages";
-	if (login || messages) {
+	allowprofile = settings.get('allowprofile');
+	var currentpage = document.URL.split('?')[0];
+	var allowed = (profile == currentpage) && allowprofile;
+	if (login || messages || allowed) {
 		countdown.hide();
 		overlay.hide();
 	} else {
+		var now = new Date().getTime();
 		notifications = false;
 		$('.jewelCount span').each(function() { if ($(this).text() > 0) { notifications = true; } });
 		if (notifications) {
-			updateStopCount();
+			var timesup = new Date(now + settings.get('duration')*60000).getTime();
+			updateTimesup(timesup);
 			countdown.hide();
 			overlay.hide();
 		} else {
-			var stop = +localStorage.getItem("FBstop");
-			var now = new Date().getTime();
-			if (stop < now || !localStorage.FBstop) {
+			var stop = settings.get('timesup');
+			if (stop < now) {
 				overlay.show();
 				countdown.hide();
 			} else {
@@ -69,10 +92,16 @@ function loop() {
 }
 
 $(document).ready(function() {
+	settings.set('start', 10);
+	settings.set('duration', 5);
+	settings.set('allowprofile', true);
+	allowprofile = settings.get('allowprofile');
+	profile = $('.tinyman a').attr('href').split('?')[0];
+	mouseOverCountdown = false;
 	var now = new Date().getTime();
-	var future = new Date(now + 0.25*60000).getTime();
-	localStorage.setItem("FBstop", future);
-	$('body').append(popup);
+	var timesup = new Date(now + ((settings.get('start') + 2) / 60)*60000).getTime();
+	updateTimesup(timesup);
+	$('body').append(popup.replace('%s', profile));
 	$('body').append('<div id="countdown"></div>');
 	loop();
 	$('#countdown').hover(function() {
@@ -89,7 +118,7 @@ $(document).ready(function() {
 });
 
 var updateCountdown = function() {
-	var stop = +localStorage.getItem("FBstop");
+	var stop = settings.get('timesup');
 	var now = new Date().getTime();
 	if (stop >= now) {
 		var time = Math.floor((stop - now) / 1000);
@@ -108,6 +137,6 @@ var popup = '\
 </div>															\
 <div id="message">    							\
 	<h1>Can\'t let you do that!</h1>  \
-	<p>You don\'t have any messages or notifications, which makes Facebook a waste of your time right now. You may still use <a href="http://www.facebook.com/messages">Facebook messages</a>.</p> \
+	<p>You don\'t have any messages or notifications, which makes Facebook a waste of your time right now. You may still use <a href="http://www.facebook.com/messages">Facebook messages</a> or visit your <a href="%s">profile page</a>.</p> \
 </div>    													\
 ';
