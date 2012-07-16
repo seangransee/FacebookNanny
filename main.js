@@ -59,6 +59,7 @@ var overlay = {
 
 var allowprofile;
 var profile;
+var firstname;
 
 function loop() {
 	var login = document.title.indexOf('Log In') > -1;
@@ -71,14 +72,16 @@ function loop() {
 		overlay.hide();
 	} else {
 		var now = new Date().getTime();
-		notifications = false;
-		$('.jewelCount span').each(function() { if ($(this).text() > 0) { notifications = true; } });
+		notifications = +$('#notificationsCountValue').text();
+		//$('.jewelCount span').each(function() { if ($(this).text() > 0) { notifications = true; } });
 		if (notifications) {
-			var timesup = new Date(now + settings.get('duration')*60000).getTime();
+			console.log('notifications');
+			var timesup = new Date(now + notifications*60000).getTime();
 			updateTimesup(timesup);
 			countdown.hide();
 			overlay.hide();
 		} else {
+			console.log('no notifications');
 			var stop = settings.get('timesup');
 			if (stop < now) {
 				overlay.show();
@@ -92,16 +95,17 @@ function loop() {
 }
 
 $(document).ready(function() {
-	settings.set('start', 10);
-	settings.set('duration', 5);
+	settings.set('start', 15);
+	settings.set('duration', 3);
 	settings.set('allowprofile', true);
 	allowprofile = settings.get('allowprofile');
 	profile = $('.tinyman a').attr('href').split('?')[0];
+	firstname = $('.headerTinymanName').text().split(' ')[0];
 	mouseOverCountdown = false;
 	var now = new Date().getTime();
 	var timesup = new Date(now + ((settings.get('start') + 2) / 60)*60000).getTime();
 	updateTimesup(timesup);
-	$('body').append(popup.replace('%s', profile));
+	$('body').append(popup.replace('%s', profile).replace('%n', firstname));
 	$('body').append('<div id="countdown"></div>');
 	loop();
 	$('#countdown').hover(function() {
@@ -136,7 +140,7 @@ var popup = '\
 <div id="overlay">									\
 </div>															\
 <div id="message">    							\
-	<h1>Can\'t let you do that!</h1>  \
+	<h1>%n, don\'t you have homework to do?</h1>  \
 	<p>You don\'t have any messages or notifications, which makes Facebook a waste of your time right now. You may still use <a href="http://www.facebook.com/messages">Facebook messages</a> or visit your <a href="%s">profile page</a>.</p> \
 </div>    													\
 ';
