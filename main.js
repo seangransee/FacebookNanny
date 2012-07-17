@@ -74,16 +74,12 @@ function loop() {
 		var now = new Date().getTime();
 		notifications = +$('#notificationsCountValue').text();
 		//$('.jewelCount span').each(function() { if ($(this).text() > 0) { notifications = true; } });
-		console.log(notifications);
 		if (notifications) {
-			console.log('notifications');
 			var timesup = new Date(now + notifications*60000).getTime();
 			updateTimesup(timesup);
-			console.log('updated');
 			countdown.hide();
 			overlay.hide();
 		} else {
-			console.log('no notifications');
 			var stop = settings.get('timesup');
 			if (stop < now) {
 				overlay.show();
