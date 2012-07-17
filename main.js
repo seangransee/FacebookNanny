@@ -74,10 +74,12 @@ function loop() {
 		var now = new Date().getTime();
 		notifications = +$('#notificationsCountValue').text();
 		//$('.jewelCount span').each(function() { if ($(this).text() > 0) { notifications = true; } });
+		console.log(notifications);
 		if (notifications) {
 			console.log('notifications');
 			var timesup = new Date(now + notifications*60000).getTime();
 			updateTimesup(timesup);
+			console.log('updated');
 			countdown.hide();
 			overlay.hide();
 		} else {
@@ -95,7 +97,7 @@ function loop() {
 }
 
 $(document).ready(function() {
-	settings.set('start', 15);
+	settings.set('start', 0);
 	settings.set('duration', 3);
 	settings.set('allowprofile', true);
 	allowprofile = settings.get('allowprofile');
@@ -103,8 +105,8 @@ $(document).ready(function() {
 	firstname = $('.headerTinymanName').text().split(' ')[0];
 	mouseOverCountdown = false;
 	var now = new Date().getTime();
-	var timesup = new Date(now + ((settings.get('start') + 2) / 60)*60000).getTime();
-	updateTimesup(timesup);
+	//var timesup = new Date(now + ((settings.get('start') + 2) / 60)*60000).getTime();
+	updateTimesup(now);
 	$('body').append(popup.replace('%s', profile).replace('%n', firstname));
 	$('body').append('<div id="countdown"></div>');
 	loop();
@@ -140,7 +142,7 @@ var popup = '\
 <div id="overlay">									\
 </div>															\
 <div id="message">    							\
-	<h1>%n, don\'t you have homework to do?</h1>  \
+	<h1>%n, don\'t you have work to do?</h1>  \
 	<p>You don\'t have any messages or notifications, which makes Facebook a waste of your time right now. You may still use <a href="http://www.facebook.com/messages">Facebook messages</a> or visit your <a href="%s">profile page</a>.</p> \
 </div>    													\
 ';
