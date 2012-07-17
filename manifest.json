@@ -1,6 +1,6 @@
 {
   "name": "Facebook Nanny",
-  "version": "0.4.1",
+  "version": "0.4.2",
   "description": "Disables Facebook unless you have notifications or need to chat with someone.",
   "permissions": [ "cookies", "*://*.facebook.com/*" ],
   "icons": {
