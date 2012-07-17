@@ -93,16 +93,16 @@ function loop() {
 }
 
 $(document).ready(function() {
-	settings.set('start', 0);
+	settings.set('start', 15);
 	settings.set('duration', 3);
 	settings.set('allowprofile', true);
 	allowprofile = settings.get('allowprofile');
-	profile = $('.tinyman a').attr('href').split('?')[0];
+	if ($('.tinyman a').attr('href')) profile = $('.tinyman a').attr('href').split('?')[0];
 	firstname = $('.headerTinymanName').text().split(' ')[0];
 	mouseOverCountdown = false;
 	var now = new Date().getTime();
-	//var timesup = new Date(now + ((settings.get('start') + 2) / 60)*60000).getTime();
-	updateTimesup(now);
+	var timesup = new Date(now + ((settings.get('start') + 2) / 60)*60000).getTime();
+	updateTimesup(timesup);
 	$('body').append(popup.replace('%s', profile).replace('%n', firstname));
 	$('body').append('<div id="countdown"></div>');
 	loop();
