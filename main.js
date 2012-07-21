@@ -139,6 +139,6 @@ var popup = '\
 </div>															\
 <div id="message">    							\
 	<h1>%n, don\'t you have work to do?</h1>  \
-	<p>You don\'t have any messages or notifications, which makes Facebook a waste of your time right now. You may still use <a href="http://www.facebook.com/messages">Facebook messages</a> or visit your <a href="%s">profile page</a>.</p> \
+	<p>You don\'t have any notifications, which makes Facebook a waste of your time right now. You may still use <a href="http://www.facebook.com/messages">Facebook messages</a> or visit your <a href="%s">profile page</a>.</p> \
 </div>    													\
 ';
