@@ -6,6 +6,5 @@ zip -r extension.zip icon.png \
                      jquery.min.js \
                      main.js \
                      manifest.json \
-                     README.md \
                      screenshot.png \
                      styles.css

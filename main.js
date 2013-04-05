@@ -67,13 +67,15 @@ function loop() {
 	allowprofile = settings.get('allowprofile');
 	var currentpage = document.URL.split('?')[0];
 	var allowed = (profile == currentpage) && allowprofile;
+	if (login) {
+		localStorage.removeItem('fb_firstname');
+	}
 	if (login || messages || allowed) {
 		countdown.hide();
 		overlay.hide();
 	} else {
 		var now = new Date().getTime();
 		notifications = +$('#notificationsCountValue').text();
-		//$('.jewelCount span').each(function() { if ($(this).text() > 0) { notifications = true; } });
 		if (notifications) {
 			var timesup = new Date(now + notifications*60000).getTime();
 			updateTimesup(timesup);
@@ -98,12 +100,18 @@ $(document).ready(function() {
 	settings.set('allowprofile', true);
 	allowprofile = settings.get('allowprofile');
 	if ($('.tinyman a').attr('href')) profile = $('.tinyman a').attr('href').split('?')[0];
-	firstname = $('.headerTinymanName').text().split(' ')[0];
+
+	var name = $('.fbxWelcomeBoxName').text();
+	if (name) {
+		localStorage.setItem('fb_firstname', name.split(' ')[0]);
+	}
+
+	var firstname = localStorage.getItem('fb_firstname');
 	mouseOverCountdown = false;
 	var now = new Date().getTime();
 	var timesup = new Date(now + ((settings.get('start') + 2) / 60)*60000).getTime();
 	updateTimesup(timesup);
-	$('body').append(popup.replace('%s', profile).replace('%n', firstname));
+	$('body').append(popup(firstname, profile));
 	$('body').append('<div id="countdown"></div>');
 	loop();
 	$('#countdown').hover(function() {
@@ -134,11 +142,17 @@ var updateCountdown = function() {
 }
 
 
-var popup = '\
-<div id="overlay">									\
-</div>															\
-<div id="message">    							\
-	<h1>%n, don\'t you have work to do?</h1>  \
-	<p>You don\'t have any notifications, which makes Facebook a waste of your time right now. You may still use <a href="http://www.facebook.com/messages">Facebook messages</a> or visit your <a href="%s">profile page</a>.</p> \
+var popup = function(name, profile) {
+	var text = '<div id="overlay"></div><div id="message"><h1>';
+	if (name) {
+		text += name + ', d';
+	} else {
+		text += 'D';
+	}
+
+	text += 'on\'t you have work to do?</h1>  \
+	<p>You don\'t have any notifications, which makes Facebook a waste of your time right now. You may still use <a href="http://www.facebook.com/messages">Facebook messages</a> or visit your <a href="'+profile+'">profile page</a>.</p> \
 </div>    													\
 ';
+	return text;
+}
