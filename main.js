@@ -65,7 +65,7 @@ function loop() {
 	var login = document.title.indexOf('Log In') > -1;
 	var messages = document.title.split(' ').reverse()[0] == "Messages";
 	allowprofile = settings.get('allowprofile');
-	var currentpage = document.URL.split('?')[0];
+	var currentpage = document.URL.split('?')[0].split('://')[1];
 	var allowed = (profile == currentpage) && allowprofile;
 	if (login) {
 		localStorage.removeItem('fb_firstname');
@@ -99,7 +99,10 @@ $(document).ready(function() {
 	settings.set('duration', 3);
 	settings.set('allowprofile', true);
 	allowprofile = settings.get('allowprofile');
-	if ($('.tinyman a').attr('href')) profile = $('.tinyman a').attr('href').split('?')[0];
+	if ($('.tinyman a').attr('href'))
+		profile = $('.tinyman a').attr('href').split('?')[0].split('://')[1];
+	if ($('.navLink[title="Timeline"]').attr('href'))
+		profile = $('.navLink[title="Timeline"]').attr('href').split('?')[0].split('://')[1];
 
 	var name = $('.fbxWelcomeBoxName').text();
 	if (name) {
@@ -151,7 +154,7 @@ var popup = function(name, profile) {
 	}
 
 	text += 'on\'t you have work to do?</h1>  \
-	<p>You don\'t have any notifications, which makes Facebook a waste of your time right now. You may still use <a href="http://www.facebook.com/messages">Facebook messages</a> or visit your <a href="'+profile+'">profile page</a>.</p> \
+	<p>You don\'t have any notifications, which makes Facebook a waste of your time right now. You can still chat with people on <a href="http://www.facebook.com/messages">messages</a> or post updates to your <a href="'+profile+'">profile</a>.</p> \
 </div>    													\
 ';
 	return text;
