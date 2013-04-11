@@ -154,7 +154,7 @@ var popup = function(name, profile) {
 	}
 
 	text += 'on\'t you have work to do?</h1>  \
-	<p>You don\'t have any notifications, which makes Facebook a waste of your time right now. You can still chat with people on <a href="http://www.facebook.com/messages">messages</a> or post updates to your <a href="'+profile+'">profile</a>.</p> \
+	<p>You don\'t have any notifications, which makes Facebook a waste of your time right now. You can still chat with people on <a href="http://www.facebook.com/messages">messages</a> or post updates to your <a href="http://'+profile+'">profile</a>.</p> \
 </div>    													\
 ';
 	return text;
